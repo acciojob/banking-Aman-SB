@@ -46,26 +46,38 @@ public class BankAccount {
 //        Generate account number having given number of 'digits' such that the sum of digits is equal to 'sum'
 //        If it is not possible, throw "Account Number can not be generated" exception
 
-        UUID uuid = UUID.randomUUID();
-        String uuidString = uuid.toString();
-        int convertedNumber = convertUUIDToString(uuidString);
-        return String.valueOf(convertedNumber);
+        if (digits <= 0 || sum < 0 || sum > digits * 9) {
+            throw new RuntimeException("Account Number cannot be generated");
+        }
+
+        int[] accountNumber = new int[digits];
+        int remainingSum = sum;
+
+        // Generate the account number digits
+        for (int i = 0; i < digits; i++) {
+            if (remainingSum >= 9) {
+                accountNumber[i] = 9;
+                remainingSum -= 9;
+            } else {
+                accountNumber[i] = remainingSum;
+                remainingSum = 0;
+            }
+        }
+
+        // If there's still a remaining sum, it's not possible to generate the account number
+        if (remainingSum > 0) {
+            throw new RuntimeException("Account Number cannot be generated");
+        }
+
+        // Convert the account number digits to an integer
+        int generatedAccountNumber = 0;
+        for (int i = 0; i < digits; i++) {
+            generatedAccountNumber = generatedAccountNumber * 10 + accountNumber[i];
+        }
+
+        return String.valueOf(generatedAccountNumber);
     }
 
-    public static int convertUUIDToString(String uuidString) {
-        UUID uuid = UUID.fromString(uuidString);
-        long mostSignificantBits = uuid.getMostSignificantBits();
-        long leastSignificantBits = uuid.getLeastSignificantBits();
-
-        // Combine the most significant and least significant bits and take the absolute value
-        long combinedBits = mostSignificantBits ^ leastSignificantBits;
-        long absoluteValue = Math.abs(combinedBits);
-
-        // Map the absolute value to a number between 0 and 9
-        int convertedNumber = (int) (absoluteValue % 10);
-
-        return convertedNumber;
-    }
 
     public void deposit(double amount) {
         //add amount to balance
