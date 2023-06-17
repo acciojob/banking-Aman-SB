@@ -1,5 +1,7 @@
 package com.driver;
 
+import java.util.UUID;
+
 public class BankAccount {
 
     private String name;
@@ -44,7 +46,25 @@ public class BankAccount {
 //        Generate account number having given number of 'digits' such that the sum of digits is equal to 'sum'
 //        If it is not possible, throw "Account Number can not be generated" exception
 
-        return null;
+        UUID uuid = UUID.randomUUID();
+        String uuidString = uuid.toString();
+        int convertedNumber = convertUUIDToString(uuidString);
+        return String.valueOf(convertedNumber);
+    }
+
+    public static int convertUUIDToString(String uuidString) {
+        UUID uuid = UUID.fromString(uuidString);
+        long mostSignificantBits = uuid.getMostSignificantBits();
+        long leastSignificantBits = uuid.getLeastSignificantBits();
+
+        // Combine the most significant and least significant bits and take the absolute value
+        long combinedBits = mostSignificantBits ^ leastSignificantBits;
+        long absoluteValue = Math.abs(combinedBits);
+
+        // Map the absolute value to a number between 0 and 9
+        int convertedNumber = (int) (absoluteValue % 10);
+
+        return convertedNumber;
     }
 
     public void deposit(double amount) {
