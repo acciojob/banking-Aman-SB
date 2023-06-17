@@ -78,7 +78,6 @@ public class BankAccount {
         return String.valueOf(generatedAccountNumber);
     }
 
-
     public void deposit(double amount) {
         //add amount to balance
         this.balance += amount;
