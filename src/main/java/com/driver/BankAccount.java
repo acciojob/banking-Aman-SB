@@ -1,5 +1,6 @@
 package com.driver;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 public class BankAccount {
@@ -47,19 +48,19 @@ public class BankAccount {
 //        If it is not possible, throw "Account Number can not be generated" exception
 
         if (digits <= 0 || sum < 0 || sum > digits * 9) {
-            throw new RuntimeException("Account Number can not be generated");
+            throw new Exception("Account Number can not be generated");
         }
 
-        int[] accountNumber = new int[digits];
+        String accountNumber = "";
         int remainingSum = sum;
 
         // Generate the account number digits
         for (int i = 0; i < digits; i++) {
             if (remainingSum >= 9) {
-                accountNumber[i] = 9;
+                accountNumber =accountNumber + String.valueOf(9);
                 remainingSum -= 9;
             } else {
-                accountNumber[i] = remainingSum;
+                accountNumber=accountNumber + String.valueOf(remainingSum);
                 remainingSum = 0;
             }
         }
@@ -68,14 +69,7 @@ public class BankAccount {
         if (remainingSum > 0) {
             throw new RuntimeException("Account Number can not be generated");
         }
-
-        // Convert the account number digits to an integer
-        int generatedAccountNumber = 0;
-        for (int i = 0; i < digits; i++) {
-            generatedAccountNumber = generatedAccountNumber * 10 + accountNumber[i];
-        }
-
-        return String.valueOf(generatedAccountNumber);
+        return accountNumber;
     }
 
     public void deposit(double amount) {
