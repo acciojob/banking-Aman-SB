@@ -47,7 +47,7 @@ public class BankAccount {
 //        If it is not possible, throw "Account Number can not be generated" exception
 
         if (digits <= 0 || sum < 0 || sum > digits * 9) {
-            throw new RuntimeException("Account Number cannot be generated");
+            throw new RuntimeException("Account Number can not be generated");
         }
 
         int[] accountNumber = new int[digits];
@@ -66,7 +66,7 @@ public class BankAccount {
 
         // If there's still a remaining sum, it's not possible to generate the account number
         if (remainingSum > 0) {
-            throw new RuntimeException("Account Number cannot be generated");
+            throw new RuntimeException("Account Number can not be generated");
         }
 
         // Convert the account number digits to an integer
